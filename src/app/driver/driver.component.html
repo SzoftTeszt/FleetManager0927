@@ -1,0 +1,56 @@
+<!-- {{drivers|json}}
+{{newDriver|json}} -->
+
+<div class="input-group mb-3">
+  <button (click)="menuNyit= !menuNyit"  class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Mindenhol</button>
+  <ul [ngbCollapse]="menuNyit" class="dropdown-menu">
+    <li><a (click)="mezoKivalaszt('')" class="dropdown-item">Mindenhol</a></li>
+    <li *ngFor="let oszlop of oszlopok">
+        <a (click)="mezoKivalaszt(oszlop.key)" class="dropdown-item">{{oszlop.text}}</a>
+    </li>
+   
+  </ul>
+    <span class="input-group-text" id="basic-addon1">Keresés: </span>
+    <input [(ngModel)]="keresendo" type="text" class="form-control">
+  </div>
+
+<div class="row my-2 fw-bold">
+    <div *ngFor="let oszlop of oszlopok" class="col">
+        {{oszlop.text}}
+    </div>
+    <div class="col">
+        Műveletek
+    </div>
+</div>
+<!-- Fejléc kiíratás vége -->
+
+<div  class="row my-1">
+    <div *ngFor="let oszlop of oszlopok" class="col">
+        <ng-container *ngIf="oszlop.type!='plain';else notchange">
+            <input [(ngModel)]="newDriver[oszlop.key]"  [type]="oszlop.type" class="form-control">
+        </ng-container>
+        <ng-template #notchange>
+            
+        </ng-template>
+        <!-- {{driver[oszlop.key]}} -->
+    </div>
+    <div class="col">
+        <button (click)="addDriver()" type="button" class=" btn btn-warning">Hozzáad</button>
+    </div>
+</div>
+
+<div *ngFor="let driver of drivers|search:keresendo:keresMezo" class="row my-1">
+    <div *ngFor="let oszlop of oszlopok" class="col">
+        <ng-container *ngIf="oszlop.type!='plain';else notchange">
+            <input [(ngModel)]="driver[oszlop.key]"  [type]="oszlop.type" class="form-control">
+        </ng-container>
+        <ng-template #notchange>
+            {{driver[oszlop.key]}}
+        </ng-template>
+        <!-- {{driver[oszlop.key]}} -->
+    </div>
+    <div class="col">
+        <button (click)="editDriver(driver)" type="button" class=" btn btn-warning">Szerkeszt</button>
+        <button (click)="deleteDriver(driver)" type="button" class="ms-2 btn btn-danger">Töröl</button>
+    </div>
+</div>
